@@ -1,3 +1,3 @@
-def multiply (number_1, number_2)
-  number_1 * number_2
+def multiply(number1, number2)
+  number1 * number2
 end
