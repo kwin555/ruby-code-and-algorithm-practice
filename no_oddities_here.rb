@@ -1,4 +1,7 @@
 def no_odds(values)
-  puts values.map { |number| number if number.even?}.inspect
+  even_aray = []
+  values.each do |number|
+    even_aray << number if number.even?
+  end
+  even_aray
 end
-no_odds([0,1,2,3])
