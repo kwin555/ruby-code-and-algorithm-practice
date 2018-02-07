@@ -23,5 +23,3 @@ def get_planet_name(id)
   end
   name
 end
-
-puts get_planet_name(8)
