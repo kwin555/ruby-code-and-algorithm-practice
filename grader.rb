@@ -1,9 +1,7 @@
 def grader(score)
-  return 'F' if score > 1 || score < 0.6
-  return 'A' if score >= 0.9
-  return 'B' if score >= 0.8
-  return 'c' if score >= 0.7
-  return 'D' if score >= 0.6
+  'F' if score > 1 || score < 0.6
+  'A' if score >= 0.9
+  'B' if score >= 0.8
+  'c' if score >= 0.7
+  'D'
 end
-
-puts grader(0.65).inspect
