@@ -1,6 +1,9 @@
 class Image
   attr_accessor :image_data
 
+  ON = 1
+  OFF = 0
+
   def initialize(image_data)
     self.image_data = image_data
   end
@@ -11,6 +14,15 @@ class Image
     end.join("\n")
   end
 
+  def blur
+    distance = 2
+    distance.times do
+      blur_once
+    end
+  end
+
+  private
+
   def width
     image_data[0].size
   end
@@ -19,38 +31,58 @@ class Image
     image_data.size
   end
 
-  def blur
-    # puts 'input blur distance'
-    # distance = gets.chomp.to_i
-    distance = 2
-    distance.times do
-      blur_once
-    end
-  end
-
-  def blur_once
+  def location_of_on_pixels
     on_pixels = []
     # this gets the location of my 1's
-    @image_data.each_with_index do |row_elements, row_number|
+    image_data.each_with_index do |row_elements, row_number|
       row_elements.each_with_index do |element, column_number|
         on_pixels << [row_number, column_number] if element == 1
       end
     end
-    # this uses the location of my 1's to put 1s surround my original 1
-    on_pixels.each do |index|
-      row_number = index[0]
-      column_number = index[1]
-      @image_data[row_number][column_number - 1] = 1 if column_number - 1 >= 0
-      @image_data[row_number][column_number + 1] = 1 if \
-      column_number + 1 <= height - 1
-      @image_data[row_number - 1][column_number] = 1 if row_number - 1 >= 0
-      @image_data[row_number + 1][column_number] = 1 if \
-      row_number + 1 <= width - 1
+    on_pixels
+  end
+
+  def left_edge?(column_number)
+    column_number - 1 < 0
+  end
+
+  def blur_left(row_number, column_number)
+    image_data[row_number][column_number - 1] = ON
+  end
+
+  def right_edge?(column_number)
+    column_number == height - 1
+  end
+
+  def blur_right(row_number, column_number)
+    image_data[row_number][column_number + 1] = ON
+  end
+
+  def top_edge?(row_number)
+    row_number - 1 < 0
+  end
+
+  def blur_top(row_number, column_number)
+    image_data[row_number - 1][column_number] = ON
+  end
+
+  def bottom_edge?(row_number)
+    row_number == width - 1
+  end
+
+  def blur_bottom(row_number, column_number)
+    image_data[row_number + 1][column_number] = ON
+  end
+
+  def blur_once
+    location_of_on_pixels.each do |row_number, column_number|
+      blur_left(row_number, column_number) unless left_edge?(column_number)
+      blur_right(row_number, column_number) unless right_edge?(column_number)
+      blur_top(row_number, column_number) unless top_edge?(row_number)
+      blur_bottom(row_number, column_number) unless bottom_edge?(row_number)
     end
   end
 end
-
-
 test_array = [
   [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
