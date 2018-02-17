@@ -25,13 +25,12 @@ class Stack
   end
 end
 
-def reversed_list(list)
-  stack = Stack.new
-  while list
-    stack.push(list.value)
-    list = list.next_node
+def reversed_list(list, previous_node = nil)
+  if list
+    next_node = list.next_node
+    list.next_node = previous_node
+    reversed_list(next_node, list)
   end
-  stack.data
 end
 
 def print_values(list_node)
@@ -43,9 +42,10 @@ def print_values(list_node)
     return
   end
 end
+
 node1 = LinkedListNode.new(37)
 node2 = LinkedListNode.new(99, node1)
 node3 = LinkedListNode.new(12, node2)
 print_values(node3)
-puts('-------------------')
-print_values(reversed_list(node3))
+reversed_list(node3)
+print_values(node1)
