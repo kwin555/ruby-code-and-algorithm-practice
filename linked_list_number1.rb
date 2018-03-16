@@ -43,9 +43,9 @@ def print_values(list_node)
     return
   end
 end
-node1 = LinkedListNode.new(37)
-node2 = LinkedListNode.new(99, node1)
-node3 = LinkedListNode.new(12, node2)
+node1 = LinkedListNode.new(3)
+node2 = LinkedListNode.new(2, node1)
+node3 = LinkedListNode.new(1, node2)
 print_values(node3)
 puts('-------------------')
 print_values(reversed_list(node3))
